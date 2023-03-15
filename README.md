@@ -2,7 +2,29 @@
 
 ## Installation
 
-To be able to push to this repo, you will need to clone this repository using SSH.
+### Cloning the repo
+
+To be able to push to this repo, you will need to clone this repository using SSH. This project makes use of git submodules, there are two options for cloning the repo:
+
+1. If you already have a copy of the repo, you can run `git submodule update --init --recursive` in the root directory of the repo to clone the submodules.
+2. If you don't have a copy of the repo, you can clone it with the `--recursive` flag. The following command will clone the repo and all submodules:
+
+```bash
+git clone --recursive git@github.com:Green-AI-Innovations/lazykh.git
+```
+
+### Setting up the Python environment
+
+```bash
+poetry install
+```
+
+### Gentle installation
+
+```bash
+cd gentle
+./install.sh
+```
 
 ## Introduction
 
