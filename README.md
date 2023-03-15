@@ -22,7 +22,7 @@ poetry install
 ### Gentle installation
 
 ```bash
-cd gentle
+cd third_party/gentle
 ./install.sh
 ```
 
