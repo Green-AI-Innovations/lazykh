@@ -9,7 +9,11 @@ readme = "README.md"
 python = "^3.11"
 numpy = "^1.24.2"
 pillow = "^9.4.0"
+gentle = {git = "https://github.com/Green-AI-Innovations/gentle.git"}
 
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.21.3"
 
 [build-system]
 requires = ["poetry-core>=1.4.0"]
