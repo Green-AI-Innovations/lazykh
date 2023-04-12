@@ -10,6 +10,12 @@ python = "^3.11"
 numpy = "^1.24.2"
 pillow = "^9.4.0"
 gentle = {git = "https://github.com/Green-AI-Innovations/gentle.git"}
+fastapi = "^0.95.0"
+uvicorn = "^0.21.1"
+starlette = "^0.26.1"
+requests = "^2.28.2"
+pydub = "^0.25.1"
+python-multipart = "^0.0.6"
 
 
 [tool.poetry.group.dev.dependencies]

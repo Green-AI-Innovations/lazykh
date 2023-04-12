@@ -114,14 +114,16 @@ RUN cd $DIR_GENTLE && \
 
 # 01. Creates a symbolic link to python3 as python (required by Kaldi)
 # 02. Installs the mandatory Kaldi tools 
-# 03. Installs the OpenBLAS library (required by Gentle)
-#       Note: The script install_openblas.sh will prompt the user, so we use the yes command to answer yes to all the prompts
+# 03. Installs the OpenBLAS library (required by Gentle) Note: The script
+#     install_openblas.sh will prompt the user, so we use the yes command to
+#     answer yes to all the prompts
 # 04. Configures Kaldi
 # 05. Installs the Gentle models
 # 06. Compiles Gentle (Kaldi and Gentle are compiled in a single step)
 # 07. Removes the Kaldi and Gentle built files and artifacts
-# 08. Removes the Kaldi and Gentle git directories 
-# Note: All the steps are done in a single RUN command to avoid creating intermediate layers, which would increase the image size
+# 08. Removes the Kaldi and Gentle git directories Note: All the steps are done
+#     in a single RUN command to avoid creating intermediate layers, which would
+#     increase the image size
 RUN ln -s /usr/bin/python3 /usr/bin/python && \
     cd ${DIR_KALDI_TOOLS} && \
     make -j $(nproc) -w -s && \
@@ -138,3 +140,12 @@ RUN ln -s /usr/bin/python3 /usr/bin/python && \
     find ${DIR_GENTLE}/ext -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
     rm -rf ${DIR_GENTLE}/.git && \
     rm -rf ${DIR_KALDI}/.git
+
+FROM python:3.9-slim-buster as gentle
+
+COPY lazykh
+
+# bla bla bla
+
+CMD [uvicorn]
+# and gentle

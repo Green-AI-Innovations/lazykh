@@ -1,0 +1,21 @@
+<happy>Hi!
+<explain>So,
+I want to tell you about our plan 
+<happy> for the text to video project
+<explain> We will create a pipeline
+that only includes the most essential parts.
+
+The second thing is that we need to figure out
+<rq> what the length of the input transcript should be
+<happy> Let me explain with an example
+<explain> In order to produce this video, I needed to give a transcript as input
+<confused>I have no idea how long this video will take
+<explain>So,
+<rq>we need to come up with a way to determine the duration of the video
+based on the input
+
+The last thing we are going to focus on 
+<happy>is creating a plan by setting milestones for ourselves
+<happy>We will also be breaking down tasks, so that they can be completed in one day
+
+<happy> This concludes this video. Thank you for listening bye!
