@@ -21,7 +21,7 @@ SCRIBBLE_W = 880
 SCRIBBLE_H = 1000
 
 MAX_JIGGLE_TIME = 7
-BACKGROUND_COUNT = 5
+BACKGROUND_COUNT = 1
 
 
 def getJiggle(x, fader, multiplier):
