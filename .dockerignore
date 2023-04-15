@@ -9,3 +9,4 @@ gentle/ext/tmp*
 gentle/ext/*.tmp
 gentle/ext/*.testlog
 Dockerfile
+video_artifacts/**/*

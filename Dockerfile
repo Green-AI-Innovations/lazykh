@@ -40,4 +40,4 @@ COPY . .
 
 EXPOSE 80
 
-CMD ["bash", "-c", "poetry run text_to_video/lazykh/lazykh.py"]
+CMD ["poetry", "run", "uvicorn", "text_to_video.app.main:app", "--host", "0.0.0.0", "--port", "80"]
