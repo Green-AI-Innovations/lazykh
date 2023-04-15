@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi import Request, File, UploadFile
-from services.phonemes import get_phonemes
+from text_to_video.app.services.phonemes import get_phonemes
 
 
 router = APIRouter(

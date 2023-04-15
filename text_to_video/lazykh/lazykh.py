@@ -28,7 +28,7 @@ def draw_frames(input_file, use_billboards, jiggly_transitions):
 def run_gentle_align(input_audio, input_text, output_json):
     command = [
         "python3",
-        "third_party/gentle/align.py",
+        "/gentle/align.py",
         input_audio,
         input_text,
         "-o",

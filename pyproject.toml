@@ -8,14 +8,20 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 numpy = "^1.24.2"
-pillow = "^9.4.0"
-gentle = {git = "https://github.com/Green-AI-Innovations/gentle.git"}
-fastapi = "^0.95.0"
-uvicorn = "^0.21.1"
 starlette = "^0.26.1"
 requests = "^2.28.2"
 pydub = "^0.25.1"
 python-multipart = "^0.0.6"
+uvicorn = "^0.21.1"
+fastapi = {extras = ["all"], version = "^0.95.1"}
+fairseq = "^0.12.2"
+huggingface-hub = "^0.13.4"
+g2p-en = "^2.1.0"
+pydantic = "^1.10.7"
+ipython = "^8.12.0"
+torchaudio = "^2.0.1"
+tensorboardx = "^2.6"
+pillow = "^9.5.0"
 
 
 [tool.poetry.group.dev.dependencies]
