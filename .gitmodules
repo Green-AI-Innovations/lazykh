@@ -1,4 +1,1 @@
 
-[submodule "third_party/gentle"]
-	path = third_party/gentle
-	url = https://github.com/Green-AI-Innovations/gentle.git
