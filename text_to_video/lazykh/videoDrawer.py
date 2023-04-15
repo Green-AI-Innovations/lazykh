@@ -1,8 +1,6 @@
 import argparse
 import os.path
-import json
 import numpy as np
-import random
 from PIL import Image, ImageDraw
 import math
 from utils import getFilenameOfLine
@@ -51,9 +49,10 @@ def drawFrame(
             "backgrounds/bga" + str(paragraph % BACKGROUND_COUNT) + ".png"
         )
         CACHES[0] = [paragraph, frame]
-    frame = Image.eval(
-        frame, lambda x: int(256 - (256 - x) / 2)
-    )  # Makes the entire background image move 50% closer to white. In other words, it's paler.
+
+    # Makes the entire background image move 50% closer to white. In other words, it's
+    # paler.
+    frame = Image.eval(frame, lambda x: int(256 - (256 - x) / 2))
 
     scribble = None
     if USE_BILLBOARDS:
@@ -273,7 +272,8 @@ parser.add_argument(
 parser.add_argument(
     "--frame_caching",
     type=str,
-    help="Do you want the program to duplicate frame files if they look exactly the same? This will speed up rendering by 5x. By default, this is already enabled!",
+    help="Do you want the program to duplicate frame files if they look exactly the "
+    + "same? This will speed up rendering by 5x. By default, this is already enabled!",
 )
 args = parser.parse_args()
 INPUT_FILE = args.input_file
