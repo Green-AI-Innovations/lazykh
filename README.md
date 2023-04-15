@@ -4,13 +4,10 @@
 
 ### Cloning the repo
 
-To be able to push to this repo, you will need to clone this repository using SSH. This project makes use of git submodules, there are two options for cloning the repo:
-
-1. If you already have a copy of the repo, you can run `git submodule update --init --recursive` in the root directory of the repo to clone the submodules.
-2. If you don't have a copy of the repo, you can clone it with the `--recursive` flag. The following command will clone the repo and all submodules:
+To be able to push to this repo, you will need to clone this repository using SSH. If you don't know how to do this, follow the instructions here: <https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh>
 
 ```bash
-git clone --recursive git@github.com:Green-AI-Innovations/lazykh.git
+git clone git@github.com:Green-AI-Innovations/lazykh.git
 ```
 
 ### Setting up the Python environment
@@ -21,10 +18,35 @@ poetry install
 
 ### Gentle installation
 
+Lazykh uses Gentle for phoneme detection. This is a system dependency, so you will need to install it manually on your operating system. The installation instructions will be added here once they are finalized. For now, you can rely on the Gentle docker image, for which the instructions also need to be added.
+
+## Use the Lazykh t5Docker image
+
+The Lazykh docker image is available on Docker Hub: <https://hub.docker.com/r/i453297/lazykh>. When you run the container, it will start a web server on port 80. You can then access the web interface at <http://localhost>. The web UI is not yet implemented, so you will need to use web API calls to use the application. To run the container, use the following command:
+
 ```bash
-cd third_party/gentle
-./install.sh
+docker run -it --rm -p 80:80 i453297/lazykh:latest
 ```
+
+To generate a video using the API, follow these steps:
+
+1. Send a POST request to the /video endpoint of the API.
+2. Set the Content-Type header to text/plain.
+3. Provide the text for the video in the request body.
+
+Here's an example of how to do this using the curl command line tool:
+
+```bash
+curl --location --request POST 'http://localhost/video' \
+--header 'Content-Type: text/plain' \
+--data-raw 'This is the text for the video'
+```
+
+The response will be a JSON object with the following fields:
+
+- `video_url`: The URL of the video file.
+
+You can then open the video URL in your browser to view the video.
 
 ## Introduction
 
@@ -63,7 +85,7 @@ You'll notice that occasionally, the text in ev.txt are synonym words to what I 
 
 Anything in triangle brackets is an emotion that is not verbally said. There are only 6 permitted emotions:
 
-```
+```text
 explain,happy,sad,angry,confused,rq
 
 Example:
@@ -77,7 +99,7 @@ Most of these are pretty self-explanatory. "Explain" is a generally positive emo
 
 Square brackets denote the "topic" of a line. These are integrated into spoken lines, so they should be spoken in the audio file, too. If a line doesn't have any square brackets, this program will assume the entire line is the "topic". In the below example, "tarantula" is spoken and it's the topic. "Explain" is not spoken.
 
-```
+```text
 <explain> Despite bring over 3 inches in length, the [tarantula] is not large enough to have a measurable gravitational pull on the Sun.
 ```
 
@@ -95,7 +117,7 @@ I've provided one example project in this repo for you to test: it's called "exa
 
 Open a command prompt, go to the lazykh folder, and run this command. This will create ev_g.txt
 
-```
+```bash
 python3 code/gentleScriptWriter.py --input_file exampleVideo/ev
 ```
 
@@ -103,7 +125,7 @@ python3 code/gentleScriptWriter.py --input_file exampleVideo/ev
 
 Run this command, which will create ev.json.
 
-```
+```bash
 python3 third_party/gentle/align.py exampleVideo/ev.wav exampleVideo/ev_g.txt -o exampleVideo/ev.json
 ```
 
@@ -111,7 +133,7 @@ python3 third_party/gentle/align.py exampleVideo/ev.wav exampleVideo/ev_g.txt -o
 
 Run this command, which will create ev_schedule.json. (This is not my code, it's solely Gentle.)
 
-```
+```bash
 python3 code/scheduler.py --input_file exampleVideo/ev
 ```
 
@@ -119,7 +141,7 @@ python3 code/scheduler.py --input_file exampleVideo/ev
 
 Run this command, which will create thousands of image files. (30 images per second of final video)
 
-```
+```bash
 python3 code/videoDrawer.py --input_file exampleVideo/ev --use_billboards F --jiggly_transitions F
 ```
 
@@ -127,7 +149,7 @@ python3 code/videoDrawer.py --input_file exampleVideo/ev --use_billboards F --ji
 
 Run this command, which will create the video file and delete all the image files.
 
-```
+```bash
 python3 code/videoFinisher.py --input_file exampleVideo/ev --keep_frames F
 ```
 
@@ -141,7 +163,7 @@ Running the 5 standard commands listed above will give you a video with no synch
 
 Run this command to launch a pygame applet that lets the user draw really crappy scribbles for each line of the script.
 
-```
+```bash
 python3 code/humanImager.py --input_file exampleVideo/ev
 ```
 
@@ -155,6 +177,6 @@ There will be the folder lazykh/exampleVideo/ev_billboards that contains all the
 
 Run the same command as Step 4, but be sure to change the "use-billboards" argument to "T" (true).
 
-```
+```bash
 python3 code/videoDrawer.py --input_file exampleVideo/ev --use_billboards T --jiggly_transitions F
 ```
