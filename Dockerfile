@@ -24,9 +24,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV POETRY_HOME "/opt/poetry"
 ENV PATH="$POETRY_HOME/bin:$PATH"
-ENV POETRY_VIRTUALENVS_IN_PROJECT=true
-ENV VIRTUAL_ENV "/lazykh/.venv"
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV POETRY_VIRTUALENVS_IN_PROJECT=false
+ENV POETRY_VIRTUALENVS_PATH="/virtualenvs"
 
 # Install poetry
 RUN curl -sSL https://install.python-poetry.org | python -
@@ -34,12 +33,11 @@ RUN curl -sSL https://install.python-poetry.org | python -
 WORKDIR /lazykh
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry install --no-interaction --no-ansi
+RUN poetry install --no-interaction --no-ansi --verbose
 
 COPY . .
 
-RUN chmod +x /lazykh/
 
 EXPOSE 80
 
-CMD ["poetry", "run", "uvicorn", "text_to_video.app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["bash", "-c", "poetry run text_to_video/lazykh/lazykh.py"]
