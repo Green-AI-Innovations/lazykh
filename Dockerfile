@@ -33,7 +33,8 @@ RUN curl -sSL https://install.python-poetry.org | python -
 WORKDIR /lazykh
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry install --no-interaction --no-ansi --verbose
+RUN poetry install --no-interaction --no-ansi --verbose && \
+    rm -rf $POETRY_CACHE_DIR
 
 COPY . .
 
