@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=3.11.2
+ARG PYTHON_VERSION=3.9
 
 FROM i453297/gentle:latest as gentle
 
@@ -33,8 +33,7 @@ RUN curl -sSL https://install.python-poetry.org | python -
 WORKDIR /lazykh
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry install --no-interaction --no-ansi --verbose && \
-    rm -rf $POETRY_CACHE_DIR
+RUN poetry install --no-interaction --no-ansi --verbose --no-cache --no-root
 
 COPY . .
 
