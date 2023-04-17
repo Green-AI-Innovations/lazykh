@@ -17,6 +17,7 @@ from text_to_video.lazykh.lazykh import (
     run_gentle_script_writer,
     run_scheduler,
 )
+from text_to_video.lazykh.tts import text_to_speech
 
 router = APIRouter(
     responses={404: {"description": "Not found"}},
@@ -83,16 +84,7 @@ async def create_video_controller(
     if os.path.exists(wav_file_path):
         os.remove(wav_file_path)
 
-    # TODO: Actually perform text-to-speech here. For now, just create a dummy wav file
-    with wave.open(wav_file_path, "wb") as f:
-        f.setnchannels(1)
-        f.setframerate(44100)
-        f.setsampwidth(2)
-
-        for i in range(44100):
-            value = int(32767 * math.sin(i / 10.0))
-            packed_value = struct.pack("h", value)
-            f.writeframes(packed_value)
+    text_to_speech(text, wav_file_path)
 
     if not os.path.exists(wav_file_path):
         error_msg = (
