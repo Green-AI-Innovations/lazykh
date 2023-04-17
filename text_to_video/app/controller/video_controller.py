@@ -184,4 +184,4 @@ async def get_video_file():
     full_file_path = mp4_file
     if not os.path.isfile(full_file_path):
         raise HTTPException(status_code=404, detail="File not found")
-    return FileResponse(full_file_path, media_type="video/quicktime")
+    return FileResponse(full_file_path, media_type="video/mp4")
