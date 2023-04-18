@@ -81,7 +81,10 @@ async def create_video_controller(
     if os.path.exists(wav_file_path):
         os.remove(wav_file_path)
 
-    text_to_speech(text, wav_file_path)
+    with open(txt_g_path, "r") as f:
+        clean_text = f.read()
+
+    text_to_speech(clean_text, wav_file_path)
 
     if not os.path.exists(wav_file_path):
         error_msg = (
