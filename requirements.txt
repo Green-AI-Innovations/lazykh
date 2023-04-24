@@ -1,3 +1,10 @@
+fastapi
+uvicorn
+starlette
+requests
+pydub
+python-multipart
 pygame
 numpy
 Pillow
+opencv-python
