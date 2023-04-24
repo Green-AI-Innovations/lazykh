@@ -7,7 +7,7 @@ import wave
 def get_phonemes(audio_path, transcript,filename):
     # Set the URL for the external API
     # takes sound file and text file and the filename
-    url = 'http://localhost:8765/transcriptions?async=false'
+    url = 'http://127.0.0.1/transcriptions?async=false'
 
     audio_file = wave.open(audio_path + filename, 'rb')
     audio = audio_file.readframes(audio_file.getnframes())

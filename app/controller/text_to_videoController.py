@@ -25,7 +25,7 @@ router = APIRouter(
 
 @timer
 @router.post('/textToVideo')
-async def text_To_video(transcript: UploadFile = File(...),classfiedText: UploadFile = File(...) ):
+async def text_To_video(transcript: str):
 
     delete_cache()
     randomeFilename=creat_randome_name()
@@ -34,30 +34,29 @@ async def text_To_video(transcript: UploadFile = File(...),classfiedText: Upload
 
 
     #  Read the transcript user inputed
-    transcript = await transcript.read()
-    transcript = transcript.decode('utf-8')
+ 
+  
     transcript = removeTags(transcript)
     print('removeTags from transcript')
 
 
     # get sound
-    
     text_to_speech(transcript,temp_path+randomeFilename)
     print('sound saved')
 
-    # get phonemes
+
+    # get phonemes this will take the audion from the temprory folder it just need name of audio file and the transcript and the path
     phonemes = get_phonemes(temp_path, transcript,randomeFilename)
     phonemes = json.dumps(phonemes)
 
 
-    # Call the scheduler 
+    # Call the scheduler this will creat a csv file in the temprory folder
     scheduler(transcript,phonemes,randomeFilename)
 
     
 
-    # get classfied text TODO
-    classfiedText = await classfiedText.read()
-    classfiedText = classfiedText.decode('utf-8')
+    # get classfied text TODO this will creat a text file in the temprory folder
+    classfiedText = transcript
     with open("services/temporary/"+randomeFilename+'.txt', 'w') as file:
         file.write(classfiedText)
   
