@@ -21,25 +21,32 @@ The project belongs to Zenya by Infoland.
 - The solution should be scalable to support 1.5M Zenya users and future growth, support multiple tenants, be GDPR compliant, and deployable on Azure.
 
 - Integration with Zenya is not part of this project, and cost management should be done by using existing AI/NLP services on Zenya SaaS infrastructure.
+
+
 ## Setup
 
-<b>Prerequisites</b>
+<details><summary><b>Prerequisites</b></summary>
 
 - Python
+- Docker
+- Gentel container runinig on 8765
+</details>
 
-<details><summary><b>Setup locally</b></summary>
+<details><summary><b>Import and run Gentel container</b></summary>
 
 First  instal Gentele containter
-``
+```
 docker pull lowerquality/gentle
+```
 
-
-docker run -p 8765:8765 Gentel
-
-``
+```
+docker run -p 8765:8765 lowerquality/gentle
+```
 More info on [gentel] (https://hub.docker.com/r/lowerquality/gentle)
+</details>
 
 
+<details><summary><b>Setup locally</b></summary>
 
 To run the app open a new terminal and enter the following:
 ``` shell
@@ -64,55 +71,26 @@ you can also use postman :)
 
 <details><summary><b>Dokrize</b></summary>
 
-ToDO
 
-</details>
-
-
-## Setup
-
-<b>Prerequisites</b>
-
-- Python
-
-<details><summary><b>Setup locally</b></summary>
-
-First  instal Gentele containter
-``
-docker pull lowerquality/gentle
-
-
-docker run -p 8765:8765 Gentel
-
-``
-More info on [gentel] (https://hub.docker.com/r/lowerquality/gentle)
-
-
-
-To run the app open a new terminal and enter the following:
-``` shell
-# install dependencies
-pip install -r requirements.txt
-
-# go to app folder and run app in development
-cd app
-python -m uvicorn main:app --reload
+To build the docker image.
+```
+docker build -t text_to_video .
 ```
 
+To run the docker image.
+```
+docker run -p 8000:80 text_to_video
+```
 
-send request to http://127.0.0.1:8000/text2video with transcript in the body
+To tag the docker image.
+```
+docker tag text_to_video mohammedaleryani/text_to_video
+```
 
-``
-curl --location --request POST 'http://127.0.0.1:8000/text2video' \
---header 'Content-Type: text/plain' \
---data-raw 'transcript of a video here the output will be a video but for a start you see this text'
-``
-you can also use postman :)
+Then to push it.
+```
+docker push mohammedaleryani/text_to_video
+```
 </details>
 
-<details><summary><b>Dokrize</b></summary>
-
-ToDO
-
-</details>
 
