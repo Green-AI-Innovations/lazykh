@@ -1,18 +1,20 @@
 import requests
 import json
+import wave
 
 
 
-
-
-def get_phonemes(mp3_audio, text_file,filename):
+def get_phonemes(audio_path, transcript,filename):
     # Set the URL for the external API
     # takes sound file and text file and the filename
     url = 'http://localhost:8765/transcriptions?async=false'
 
+    audio_file = wave.open(audio_path + filename, 'rb')
+    audio = audio_file.readframes(audio_file.getnframes())
+
     # Set the files and data for the HTTP POST request
-    files = {'audio': ('example.mp3', mp3_audio),
-             'transcript': ('example.txt', text_file)}
+    files = {'audio': ('example.wav',audio),
+             'transcript': ('example.txt', transcript)}
 
     # Send the HTTP POST request to the external API
     response = requests.post(url, files=files)

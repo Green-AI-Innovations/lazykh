@@ -1,14 +1,15 @@
 
 from fastapi import APIRouter
 from fastapi import  File, UploadFile
-from services.lazykhschduler import scheduler
 import json
 import subprocess
+
+from services.lazykhschduler import scheduler
 from services.lazykhVideoFinisher import Videofinisher
 from services.gentelPhonemes import get_phonemes
 from services.utils import timer, creat_randome_name, removeTags, save_audio, delete_temprory_files, get_video_from_file,delete_cache
 
-
+from models.tts import text_to_speech
 
 
 
@@ -24,10 +25,13 @@ router = APIRouter(
 
 @timer
 @router.post('/textToVideo')
-async def text_To_video(transcript: UploadFile = File(...), sound: UploadFile = File(...),classfiedText: UploadFile = File(...) ):
-# TODO check where each fie is saved
+async def text_To_video(transcript: UploadFile = File(...),classfiedText: UploadFile = File(...) ):
+
     delete_cache()
     randomeFilename=creat_randome_name()
+    # Storing files in temporory foder Not: All this files will get deleted after the user get the video
+    temp_path = "services/temporary/"
+
 
     #  Read the transcript user inputed
     transcript = await transcript.read()
@@ -37,15 +41,12 @@ async def text_To_video(transcript: UploadFile = File(...), sound: UploadFile = 
 
 
     # get sound
-    # Save audio file TODO
-    sound = await sound.read()
-    temp_path = "services/temporary/"
-    save_audio(sound, temp_path, randomeFilename)
-
+    
+    text_to_speech(transcript,temp_path+randomeFilename)
     print('sound saved')
 
     # get phonemes
-    phonemes = get_phonemes(sound,transcript,randomeFilename)
+    phonemes = get_phonemes(temp_path, transcript,randomeFilename)
     phonemes = json.dumps(phonemes)
 
 
