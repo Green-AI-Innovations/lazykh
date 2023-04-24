@@ -94,3 +94,10 @@ docker push mohammedaleryani/text_to_video
 </details>
 
 
+<details><summary><b>Try it out</b></summary>
+
+send a request to:
+
+http://localhost:8000/textToVideo?transcript=Hey there, Are you feeling overwhelmed and unproductive? Don't worry, I've got your back!
+
+</details>
