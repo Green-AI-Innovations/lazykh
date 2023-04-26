@@ -40,8 +40,10 @@ async def text_To_video(transcript: str):
     print('removeTags from transcript')
 
 
-    # get sound
-    text_to_speech(transcript,temp_path+randomeFilename)
+    # save sound in the temp
+    actor='en-US-JennyNeural'
+    # https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=tts#text-to-speech
+    text_to_speech(transcript,temp_path+randomeFilename,actor)
     print('sound saved')
 
 

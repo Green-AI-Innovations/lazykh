@@ -10,9 +10,3 @@ Pillow
 opencv-python
 moviepy 
 
-#TTS 
-torch==1.9.0
-torchaudio==0.9.0
-fairseq
-huggingface_hub
-g2p_en
