@@ -28,11 +28,3 @@ def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
         )
     else:
         print(f"Speech synthesis failed with status: {speech_result.reason}")
-
-
-string_var = """The quick brown fox jumped over the lazy dog and then ran away but he was caught by the farmer and put in a cage."""
-from app.models.pos import segment_text
-
-string_var = segment_text(string_var)
-print(string_var)
-text_to_speech(string_var, "test")
