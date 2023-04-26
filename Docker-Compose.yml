@@ -1,15 +1,16 @@
-
-version: "3.2"
-
-networks:
-  text-to-video
+version: "3.9"
 
 services:
-  data-provider:
-    image: gentel
-    container_name: 'data-provider'
+  gentle:
+    image: gentle/standard:latest
+    container_name: gentle
     ports:
-      - 8675:8675
-    networks:
-      text-to-video
-  
+      - "8765:8765"
+
+  text-to-video:
+    build: .
+    container_name: text-to-video
+    ports:
+      - "8000:80"
+    depends_on:
+      - gentle

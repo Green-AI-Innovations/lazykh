@@ -7,7 +7,7 @@ import wave
 def get_phonemes(audio_path, transcript,filename):
     # Set the URL for the external API
     # takes sound file and text file and the filename
-    url = 'http://gentel:8675/transcriptions?async=false'
+    url = 'http://host.docker.internal:8675/transcriptions?async=false'
     audio_file = wave.open(audio_path + filename+'.wav', 'rb')
     audio = audio_file.readframes(audio_file.getnframes())
 
