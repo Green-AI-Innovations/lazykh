@@ -8,5 +8,7 @@ pygame
 numpy
 Pillow
 opencv-python
-moviepy 
+moviepy
+spacy
+pandas
 
