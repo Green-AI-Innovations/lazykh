@@ -11,4 +11,4 @@ opencv-python
 moviepy
 spacy
 pandas
-
+azure-cognitiveservices-speech
