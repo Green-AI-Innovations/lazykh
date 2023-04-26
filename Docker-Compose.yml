@@ -1,0 +1,15 @@
+
+version: "3.2"
+
+networks:
+  text-to-video
+
+services:
+  data-provider:
+    image: gentel
+    container_name: 'data-provider'
+    ports:
+      - 8675:8675
+    networks:
+      text-to-video
+  
