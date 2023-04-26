@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   gentle:
-    image: gentle/standard:latest
+    image: lowerquality/gentle
     container_name: gentle
     ports:
       - "8765:8765"
@@ -11,6 +11,6 @@ services:
     build: .
     container_name: text-to-video
     ports:
-      - "8000:80"
+      - "8000:8000"
     depends_on:
       - gentle
