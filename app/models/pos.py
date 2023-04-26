@@ -1,34 +1,36 @@
 import spacy
 import re
-import pandas as pd
 
 _nlp = spacy.load("en_core_web_sm")
+
 
 def _split_sentences_punct_marks(doc):
     # Initialize the list of sentence spans
     sentences = []
-    
+
     # Initialize the start index of each sentence
     start = 0
-    
+
     # Iterate over each token in the Doc object
     for i, token in enumerate(doc):
         # Check if the token is a punctuation mark that indicates the end of a sentence
         if token.is_punct and token.text in [".", "!", "?", ":", ",", ";"]:
-            # Append the span of text from the start of the sentence to the current token to the list of sentences
-            sentences.append(doc[start:i+1])
-            
+            # Append the span of text from the start of the sentence to the current
+            # token to the list of sentences
+            sentences.append(doc[slice(start, i + 1)])
+
             # Update the start index to the next token
-            start = i+1
-    
+            start = i + 1
+
     # Add the last sentence if it's not already included
     if start < len(doc):
         sentences.append(doc[start:])
-    
+
     # Return the list of sentence spans
     return sentences
 
-def _split_at_cc(sentence): # coordinating conjunction
+
+def _split_at_cc(sentence):  # coordinating conjunction
     doc = _nlp(sentence)
     chunks = []
     start = 0
@@ -38,6 +40,7 @@ def _split_at_cc(sentence): # coordinating conjunction
             start = i
     chunks.append(doc[start:])
     return chunks
+
 
 def _get_subtree_heads(doc):
     heads = []
@@ -57,6 +60,7 @@ def _get_subtree_heads(doc):
                     heads.append(child)
     return heads
 
+
 def _split_span_at_heads(tokens, span):
     # Convert single token to list
     if isinstance(tokens, spacy.tokens.Token):
@@ -66,11 +70,12 @@ def _split_span_at_heads(tokens, span):
     for i, token in enumerate(span):
         for head in tokens:
             if token.text == head.text:
-                split_points.append(i+1)
+                split_points.append(i + 1)
     # Sort split points and create sub-spans
     split_points = sorted(list(set(split_points)))
     sub_spans = [span[start:end] for start, end in zip(split_points, split_points[1:])]
     return sub_spans
+
 
 def _remove_punctuation_at_end(spans):
     cleaned_spans = []
@@ -81,11 +86,13 @@ def _remove_punctuation_at_end(spans):
             cleaned_spans.append(span)
     return cleaned_spans
 
+
 def _join_sentences_on_new_line(spans):
     sentences = []
     for span in spans:
         sentences.append(span.text)
-    return '\n'.join(sentences)
+    return "\n".join(sentences)
+
 
 def segment_text(text):
     text_ = re.sub(r"\s+", " ", text)
@@ -105,17 +112,19 @@ def segment_text(text):
         for xx in x:
             smaller_parts__.append(_split_span_at_heads(heads, xx))
     for x in smaller_parts__:
-        for xx in x: 
+        for xx in x:
             final_list.append(xx)
     cleaned_spans = _remove_punctuation_at_end(final_list)
     sentences_on_new_line = _join_sentences_on_new_line(cleaned_spans)
     return sentences_on_new_line
 
+
 if __name__ == "__main__":
-    string_var = """This is a sample sentence, from CNN.com. 
+    string_var = """This is a sample sentence, from CNN.com.
 
 
-                It contains multiple clauses, separated by commas and semicolons; some of which are nested within parentheses."""
+                It contains multiple clauses, separated by commas and semicolons; some
+                of which are nested within parentheses."""
 
     to_print = segment_text(string_var)
     print(to_print)
