@@ -40,7 +40,7 @@ docker pull lowerquality/gentle
 ```
 
 ```
-docker run -p 8765:8765 lowerquality/gentle
+docker run --name gentle -p 8765:8765 lowerquality/gentle
 ```
 More info on [gentel] (https://hub.docker.com/r/lowerquality/gentle)
 </details>
@@ -79,7 +79,7 @@ docker build -t text_to_video .
 
 To run the docker image.
 ```
-docker run -p 8000:80 text_to_video
+docker run --name text_to_video -p 8000:80 text_to_video
 ```
 
 To tag the docker image.
