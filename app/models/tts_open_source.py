@@ -1,6 +1,6 @@
-# use this code outside this container to save space 
+# use this code outside this container to save space
 
-#add this to requirments.txt
+# add this to requirments.txt
 # torch==1.9.0
 # torchaudio==0.9.0
 # fairseq
