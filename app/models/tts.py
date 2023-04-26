@@ -1,15 +1,13 @@
+import os
 import azure.cognitiveservices.speech as speechsdk
 
 
 def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
-    # Load API key and region from the .env file
-    api_key = (
-        "af6821f1ff0d4b99a6fd062c5301727a"  # we will integrate azure key vault soon
+    # Load API key and region from the environment variables
+    speech_config = speechsdk.SpeechConfig(
+        subscription=os.environ.get("SPEECH_KEY"),
+        region=os.environ.get("SPEECH_REGION"),
     )
-    region = "westeurope"
-
-    # Configure the TTS client
-    speech_config = speechsdk.SpeechConfig(subscription=api_key, region=region)
 
     voice = actor
     speech_config.speech_synthesis_voice_name = voice
@@ -30,3 +28,11 @@ def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
         )
     else:
         print(f"Speech synthesis failed with status: {speech_result.reason}")
+
+
+string_var = """The quick brown fox jumped over the lazy dog and then ran away but he was caught by the farmer and put in a cage."""
+from app.models.pos import segment_text
+
+string_var = segment_text(string_var)
+print(string_var)
+text_to_speech(string_var, "test")
