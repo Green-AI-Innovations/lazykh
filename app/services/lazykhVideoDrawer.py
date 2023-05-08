@@ -254,8 +254,14 @@ f.close()
 #while "" in origStr:
 #    origStr.remove("")
 
+import os
+print(os.listdir())
 
-f = open("mouthCoordinates/mouthCoordinates.csv","r+")
+filename = "mouthCoordinates/mouthcoordinates.csv"
+permissions = os.stat(filename).st_mode
+
+print(f"Permissions for {filename}: {permissions:o}")
+f = open(filename,"r")
 mouthCoordinatesStr = f.read().split("\n")
 f.close()
 MOUTH_COOR = np.zeros((POSE_COUNT,5))

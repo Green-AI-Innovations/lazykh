@@ -55,8 +55,8 @@ async def text_To_video(transcript: str):
         file.write(classfiedText)
 
     # draw frames
-    use_billboards = "False"
-    jiggly_transitions = "False"
+    use_billboards = "F"
+    jiggly_transitions = "F"
     draw_frames(randomeFilename, use_billboards, jiggly_transitions)
 
     # finish the video and save it in the temprory folder
@@ -73,7 +73,7 @@ async def text_To_video(transcript: str):
 def draw_frames(file_name, use_billboards, jiggly_transitions):
     command = [
         "python",
-        "services/lazykhVideoDrawer.py",
+        "../services/lazykhVideoDrawer.py",
         "--input_file",
         file_name,
         "--use_billboards",
@@ -85,3 +85,4 @@ def draw_frames(file_name, use_billboards, jiggly_transitions):
         subprocess.run(command, check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error drawer: {e}")
+
