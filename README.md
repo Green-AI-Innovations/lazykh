@@ -35,9 +35,11 @@ The project belongs to Zenya by Infoland.
 <details><summary><b>Import and run Gentel container</b></summary>
 
 First  instal Gentele containter
+
 ```
 docker pull lowerquality/gentle
 ```
+
 
 ```
 docker run --name gentle -p 8765:8765 lowerquality/gentle
@@ -93,7 +95,21 @@ docker push mohammedaleryani/text_to_video
 ```
 </details>
 
+<details><summary><b>docker compose (do all the above steps in two line of code)</b></summary>
 
+```
+docker build -t text_to_video .
+
+```
+
+
+```
+docker-compose up
+
+```
+
+
+</details>
 <details><summary><b>Try it out</b></summary>
 
 send a request to:
