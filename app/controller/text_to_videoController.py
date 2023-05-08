@@ -33,7 +33,8 @@ async def text_To_video(transcript: str):
 
     transcript = removeTags(transcript)
     print("removeTags from transcript")
-
+    with open(temp_path + randomeFilename + '.txt', 'w') as f:
+        f.write(transcript)
     # save sound in the temp
     actor = "en-US-JennyNeural"
     # https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=tts#text-to-speech
@@ -42,7 +43,7 @@ async def text_To_video(transcript: str):
 
     # get phonemes this will take the audion from the temprory folder it just need name
     # of audio file and the transcript and the path
-    phonemes = get_phonemes(temp_path, transcript, randomeFilename)
+    phonemes = get_phonemes(temp_path, randomeFilename)
     phonemes = json.dumps(phonemes)
 
     # Call the scheduler this will creat a csv file in the temprory folder

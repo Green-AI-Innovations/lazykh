@@ -6,11 +6,16 @@ services:
     container_name: gentle
     ports:
       - "8765:8765"
+    networks:
+      - lazykh_my_network
 
   text-to-video:
-    build: .
-    container_name: text-to-video
+    image: text_to_video
     ports:
-      - "8000:8000"
-    depends_on:
-      - gentle
+      - "8000:80"
+    networks:
+      - lazykh_my_network
+      
+networks:
+  lazykh_my_network:
+    driver: bridge
