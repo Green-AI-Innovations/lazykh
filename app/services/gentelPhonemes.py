@@ -12,7 +12,7 @@ def get_phonemes(path, filename):
     # Read the audio file
     with open(path + filename+'.wav', 'rb') as audio_file:
         audio = audio_file.read()
-
+    print(transcript)
     # Set the files and data for the HTTP POST request
     files = {'audio': ('example.wav', audio, 'audio/wav'),
              'transcript': ('example.txt', transcript)}

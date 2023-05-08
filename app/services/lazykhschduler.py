@@ -69,7 +69,7 @@ def scheduler(transcriptFile,phonemesFile,filename):
     STOPPERS = [",",";",".",":","!","?"]
 
   
-    INPUT_FILE =  'test'
+    INPUT_FILE =filename
 
 
     originalScript = transcriptFile
@@ -114,10 +114,6 @@ def scheduler(transcriptFile,phonemesFile,filename):
         if "\n" in nextDigest and data['words'][i-1]['case'] != 'not-found-in-audio' and (prevPhoneme == "a" or prevPhoneme == "f" or prevPhoneme == "u" or prevPhoneme == "y"):
             addPhoneme("m", data['words'][i-1]["end"])
 
-        """print(wordString)
-        print(str(OS_IndexAt)+", "+str(OS_nextIndex))
-        print(nextDigest)
-        print("")"""
         pickedPose = False
         for stopper in STOPPERS:
             if stopper in nextDigest:

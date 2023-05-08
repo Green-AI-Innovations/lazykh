@@ -254,13 +254,10 @@ f.close()
 #while "" in origStr:
 #    origStr.remove("")
 
-import os
-print(os.listdir())
+
 
 filename = "mouthCoordinates/mouthcoordinates.csv"
-permissions = os.stat(filename).st_mode
 
-print(f"Permissions for {filename}: {permissions:o}")
 f = open(filename,"r")
 mouthCoordinatesStr = f.read().split("\n")
 f.close()
