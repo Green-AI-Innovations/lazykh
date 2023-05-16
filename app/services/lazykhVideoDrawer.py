@@ -1,6 +1,8 @@
 import argparse
 import os.path
+import json
 import numpy as np
+import random
 from PIL import Image, ImageDraw
 import math
 from utils import getFilenameOfLine
@@ -119,11 +121,11 @@ def drawFrame(frameNum,paragraph,emotion,imageNum,pose,phoneNum,poseTimeSinceLas
     frame.paste(body,(inx-s_X,iny),body)
     if not os.path.isdir(INPUT_FILE+"_frames"):
         os.makedirs(INPUT_FILE+"_frames")
-    frame.save(INPUT_FILE+"_frames/"+"{:06d}".format(frameNum)+".png")
+    frame.save(INPUT_FILE+"_frames/f"+"{:06d}".format(frameNum)+".png")
 
 def duplicateFrame(prevFrame, thisFrame):
-    prevFrameFile = INPUT_FILE+"_frames/"+"{:06d}".format(prevFrame)+".png"
-    thisFrameFile = INPUT_FILE+"_frames/"+"{:06d}".format(thisFrame)+".png"
+    prevFrameFile = INPUT_FILE+"_frames/f"+"{:06d}".format(prevFrame)+".png"
+    thisFrameFile = INPUT_FILE+"_frames/f"+"{:06d}".format(thisFrame)+".png"
     shutil.copyfile(prevFrameFile, thisFrameFile)
 
 def infoToString(arr):
@@ -219,7 +221,7 @@ USE_BILLBOARDS = (args.use_billboards == "T")
 ENABLE_JIGGLING = (args.jiggly_transitions == "T")
 ENABLE_FRAME_CACHING = (args.frame_caching != "F")
 
-f = open("services/temporary/"+INPUT_FILE+"_schedule.csv","r+")
+f = open(INPUT_FILE+"_schedule.csv","r+")
 scheduleLines = f.read().split("\nSECTION\n")
 f.close()
 
@@ -248,17 +250,14 @@ phonemesPerFrame = np.zeros(FRAME_COUNT,dtype='int32')
 for i in range(len(phonemeTimeline)-1):
     setPhoneme(i)
 
-f = open("services/temporary/"+INPUT_FILE+".txt","r+")
+f = open(INPUT_FILE+".txt","r+")
 origScript = f.read().split("\n")
 f.close()
 #while "" in origStr:
 #    origStr.remove("")
 
 
-
-filename = "mouthCoordinates/mouthcoordinates.csv"
-
-f = open(filename,"r")
+f = open("mouthCoordinates/mouthcoordinates.csv","r+")
 mouthCoordinatesStr = f.read().split("\n")
 f.close()
 MOUTH_COOR = np.zeros((POSE_COUNT,5))

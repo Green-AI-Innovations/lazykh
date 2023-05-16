@@ -5,8 +5,8 @@ import azure.cognitiveservices.speech as speechsdk
 def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
     # Load API key and region from the environment variables
     speech_config = speechsdk.SpeechConfig(
-        subscription=os.environ.get("SPEECH_KEY"),
-        region=os.environ.get("SPEECH_REGION"),
+        subscription='803933b47edd4a948d2310aff4fc847f',
+        region='westeurope',
     )
 
     voice = actor

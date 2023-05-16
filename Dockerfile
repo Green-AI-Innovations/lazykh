@@ -5,6 +5,7 @@ RUN apt-get update && \
     libgl1-mesa-glx \
     build-essential \
     libssl-dev \
+    ffmpeg\
     libcurl4-openssl-dev \
     libasound2 && \
     apt-get clean && \

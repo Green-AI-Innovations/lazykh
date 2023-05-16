@@ -11,18 +11,9 @@ import os
 
 
 
-def timer(func):
-    def wrapper(*args, **kwargs):
-        start_time = time.time()
-        result = func(*args, **kwargs)
-        end_time = time.time()
-        print(f"Function {func.__name__} took {end_time - start_time} seconds to execute.")
-        return result
-    return wrapper
-
-
 def removeTags(script):
   TO_REMOVE = ["[","]","/"]
+  script = script.decode('utf-8')
 
   newScript = script.replace("-"," ")
   for charToRemove in TO_REMOVE:
@@ -117,21 +108,24 @@ def delete_temprory_files(folder_path, prefix):
     """
     Deletes all files in a folder that start with a given prefix and end with either ".csv" or ".json".
     """
+    try:
+        transcript=prefix+'.txt'
+        os.remove(folder_path+transcript)
+        phonemes=prefix+'.json'
+        os.remove(folder_path+phonemes)
+        audio=prefix+'.wav'
+        os.remove(folder_path+audio)
+        schedule=prefix+'_schedule.csv'
+        os.remove(folder_path+schedule)
 
-    transcript=prefix+'.txt'
-    os.remove(folder_path+transcript)
-    phonemes=prefix+'.json'
-    os.remove(folder_path+phonemes)
-    audio=prefix+'.wav'
-    os.remove(folder_path+audio)
-    schedule=prefix+'_schedule.csv'
-    os.remove(folder_path+schedule)
-    video_without_sound=prefix+'.mp4'
-    os.remove(folder_path+video_without_sound)
-    # specify the path to delete frames
-    frames=prefix+'_frames'
-    # remove the directory and all its contents
-    shutil.rmtree(frames)
+        # specify the path to delete frames
+        frames=folder_path+prefix+'_frames'
+        # remove the directory and all its contents
+        shutil.rmtree(frames)
+    except PermissionError:
+        print(f"{prefix} is in use. Skipping deletion.")
+    except Exception as e:
+        print(f"Error deleting {prefix}: {e}")
 
 
 def getFilenameOfLine(line):
