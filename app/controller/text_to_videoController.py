@@ -27,27 +27,24 @@ async def text_To_video(transcript: str):
     # Storing files in temporory foder Not: All this files will get deleted after the
     temp_path = "services/temporary/"
 
-    #  Classfy the transcript user inputed and save it
-    classfiedText = fake_classfy(transcript)
-    with open(temp_path + randomeFilename + '.txt', 'w') as f:
-        f.write(classfiedText)
+    #  TODO Classfy the transcript user inputed and save it
+    classfiedText = fake_classfy(transcript,temp_path,randomeFilename)
 
-    # save sound in the temp
+
+    # Get text to voice sound and save it in the temp
     actor = "en-US-JennyNeural"
-    # https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=tts#text-to-speech
     text_to_speech(transcript, temp_path + randomeFilename, actor)
     print("sound saved")
 
-    # get phonemes this will take the audion from the temprory folder it just need name
+    # get phonemes this will take the audion from the temprory folder, it takes name
     # of audio file and the transcript and the path
-    phonemes = get_phonemes(temp_path, randomeFilename)
+    get_phonemes(temp_path, randomeFilename)
 
-    # Call the scheduler this will creat a csv file in the temprory folder
+
+    # Call the scheduler this will creat a csv file in the temprory folderit takes name of the file and the path
     scheduler(temp_path+randomeFilename)
 
-    # get classfied text TODO this will creat a text file in the temprory folder
-    with open("services/temporary/" + randomeFilename + ".txt", "w") as file:
-        file.write(classfiedText)
+
 
     # draw frames
     use_billboards = "F"
@@ -95,7 +92,7 @@ def scheduler(file_name):
         print(f"Error lazykhschduler: {e}")
 
 
-def fake_classfy(transcript):
+def fake_classfy(transcript,temp_path,randomeFilename):
     classifiedText = ""  # initialize the classifiedText variable
     count = 0 # initialize count to keep track of the number of words processed
 
@@ -112,5 +109,9 @@ def fake_classfy(transcript):
         # add a space after every word (except the last one)
         if i < len(transcript.split()) - 1:
             classifiedText += " "
+
+    # Save classfied text 
+    with open(temp_path + randomeFilename + '.txt', 'w') as f:
+        f.write(classifiedText)
 
     return classifiedText

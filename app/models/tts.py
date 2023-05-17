@@ -28,3 +28,5 @@ def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
         )
     else:
         print(f"Speech synthesis failed with status: {speech_result.reason}")
+        
+# https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=tts#text-to-speech
