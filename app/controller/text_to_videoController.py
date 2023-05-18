@@ -28,7 +28,7 @@ async def text_To_video(transcript: str):
     temp_path = "services/temporary/"
 
     #  TODO Classfy the transcript user inputed and save it
-    classfiedText = fake_classfy(transcript,temp_path,randomeFilename)
+    fake_classfy(transcript,temp_path,randomeFilename)
 
 
     # Get text to voice sound and save it in the temp
@@ -41,7 +41,7 @@ async def text_To_video(transcript: str):
     get_phonemes(temp_path, randomeFilename)
 
 
-    # Call the scheduler this will creat a csv file in the temprory folderit takes name of the file and the path
+    # Call the scheduler this will creat a csv file in the temprory folder, it takes name of the file and the path
     scheduler(temp_path+randomeFilename)
 
 
@@ -52,9 +52,7 @@ async def text_To_video(transcript: str):
     draw_frames(temp_path+randomeFilename, use_billboards, jiggly_transitions)
 
     # finish the video and save it in the temprory folder
-    audio_path = temp_path + randomeFilename + ".wav"
-    frames_path = randomeFilename + "_frames"
-    Videofinisher(temp_path,randomeFilename, audio_path, randomeFilename)
+    Videofinisher(temp_path,randomeFilename)
 
     # Delete temprory files
     delete_temprory_files(temp_path, randomeFilename)
@@ -93,25 +91,25 @@ def scheduler(file_name):
 
 
 def fake_classfy(transcript,temp_path,randomeFilename):
-    classifiedText = ""  # initialize the classifiedText variable
-    count = 0 # initialize count to keep track of the number of words processed
+    # classifiedText = ""  # initialize the classifiedText variable
+    # count = 0 # initialize count to keep track of the number of words processed
 
-    # loop through the words and add "<happy>" or "<rq>" after every three words
-    for i, word in enumerate(transcript.split()):
-        classifiedText += word
-        count += 1
-        if count % 6 == 0:  # check if we have processed every three words
-            if count % 12 == 0:
-                classifiedText += " <rq>"
-            else:
-                classifiedText += " <happy>"
+    # # loop through the words and add "<happy>" or "<rq>" after every three words
+    # for i, word in enumerate(transcript.split()):
+    #     classifiedText += word
+    #     count += 1
+    #     if count % 6 == 0:  # check if we have processed every three words
+    #         if count % 12 == 0:
+    #             classifiedText += " <rq>"
+    #         else:
+    #             classifiedText += " <happy>"
 
-        # add a space after every word (except the last one)
-        if i < len(transcript.split()) - 1:
-            classifiedText += " "
+    #     # add a space after every word (except the last one)
+    #     if i < len(transcript.split()) - 1:
+    #         classifiedText += " "
 
     # Save classfied text 
     with open(temp_path + randomeFilename + '.txt', 'w') as f:
-        f.write(classifiedText)
+        f.write(transcript)
 
-    return classifiedText
+    return transcript

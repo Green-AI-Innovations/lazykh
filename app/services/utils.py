@@ -12,27 +12,36 @@ import os
 
 
 def removeTags(script):
-  TO_REMOVE = ["[","]","/"]
-  script = script.decode('utf-8')
+    
+    TO_REMOVE = ["[","]","/"]
 
-  newScript = script.replace("-"," ")
-  for charToRemove in TO_REMOVE:
-      newScript = newScript.replace(charToRemove,"")
 
-  while "<" in newScript:
-      start = newScript.index("<")
-      end = newScript.index(">")+1
-      newScript = newScript[:start]+newScript[end:]
-  while "  " in newScript:
-      newScript = newScript.replace("  "," ")
-  while "\n " in newScript:
-      newScript = newScript.replace("\n ","\n")
-  while " \n" in newScript:
-      newScript = newScript.replace(" \n","\n")
-  while newScript[0] == " ":
-      newScript = newScript[1:]
+    # Check if `script` is a string
+    if isinstance(script, str):
+        # `script` is already a string, no decoding needed
+        pass
+    else:
+        # `script` is a byte string, decode it using UTF-8
+        script = script.decode('utf-8')
 
-  return newScript
+    newScript = script.replace("-"," ")
+    for charToRemove in TO_REMOVE:
+        newScript = newScript.replace(charToRemove,"")
+
+    while "<" in newScript:
+        start = newScript.index("<")
+        end = newScript.index(">")+1
+        newScript = newScript[:start]+newScript[end:]
+    while "  " in newScript:
+        newScript = newScript.replace("  "," ")
+    while "\n " in newScript:
+        newScript = newScript.replace("\n ","\n")
+    while " \n" in newScript:
+        newScript = newScript.replace(" \n","\n")
+    while newScript[0] == " ":
+        newScript = newScript[1:]
+
+    return newScript
 
 
 def creat_randome_name():

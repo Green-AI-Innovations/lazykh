@@ -1,21 +1,26 @@
 import os
 import azure.cognitiveservices.speech as speechsdk
-
+from services.utils import removeTags
 
 def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
+
+
+    # Text to convert to speech
+    text = removeTags(transcript)
+
     # Load API key and region from the environment variables
     speech_config = speechsdk.SpeechConfig(
         subscription='803933b47edd4a948d2310aff4fc847f',
         region='westeurope',
     )
 
+
     voice = actor
     speech_config.speech_synthesis_voice_name = voice
 
     speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
 
-    # Text to convert to speech
-    text = transcript
+
 
     # Convert text to speech and save to a file
     output_file_path = path_name + ".wav"
@@ -28,5 +33,5 @@ def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
         )
     else:
         print(f"Speech synthesis failed with status: {speech_result.reason}")
-        
+
 # https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=tts#text-to-speech
