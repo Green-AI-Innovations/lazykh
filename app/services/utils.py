@@ -7,8 +7,12 @@ from fastapi.responses import StreamingResponse
 import random
 import string
 import os
+import re
 
-
+def split_into_sentences(text):
+    """Splits the text into sentences based on some punctuation marks."""
+    sentences = re.split(r'[.!?]\s+', text)
+    return sentences
 
 
 def removeTags(script):

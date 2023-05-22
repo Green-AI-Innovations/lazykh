@@ -1,5 +1,7 @@
 import json
 import subprocess
+import requests
+import re
 
 from fastapi import APIRouter
 from models.tts import text_to_speech
@@ -32,7 +34,7 @@ async def text_To_video(transcript: str):
 
 
     # Get text to voice sound and save it in the temp
-    actor = "en-US-JennyNeural"
+    actor = "en-US-GuyNeural"
     text_to_speech(transcript, temp_path + randomeFilename, actor)
     print("sound saved")
 
@@ -90,26 +92,31 @@ def scheduler(file_name):
         print(f"Error lazykhschduler: {e}")
 
 
-def fake_classfy(transcript,temp_path,randomeFilename):
-    # classifiedText = ""  # initialize the classifiedText variable
-    # count = 0 # initialize count to keep track of the number of words processed
+def emotion_to_lazykh_tag(emotion):
+    """ Map API emotion to lazykh tag. """
+    # lazky kh tags explain,happy,sad,angry,confused,rq
+    mapping = {
+        "fear": "<sad>"
+    }
+    return mapping.get(emotion, "<neutral>")
 
-    # # loop through the words and add "<happy>" or "<rq>" after every three words
-    # for i, word in enumerate(transcript.split()):
-    #     classifiedText += word
-    #     count += 1
-    #     if count % 6 == 0:  # check if we have processed every three words
-    #         if count % 12 == 0:
-    #             classifiedText += " <rq>"
-    #         else:
-    #             classifiedText += " <happy>"
+def get_emotion(sentence):
+    """ Get emotion prediction from API. """
+    # url = "www.example.com"
+    # payload = {'text': sentence}
+    # response = requests.post(url, data=payload)
+    return "fear"
 
-    #     # add a space after every word (except the last one)
-    #     if i < len(transcript.split()) - 1:
-    #         classifiedText += " "
+def fake_classfy(transcript, temp_path, randomeFilename):
+    sentences = re.split(r'[.!?]\s+', transcript)
+    classifiedText = ""
 
-    # Save classfied text 
+    for sentence in sentences:
+        emotion = get_emotion(sentence)
+        lazykh_tag = emotion_to_lazykh_tag(emotion)
+        classifiedText += f"{lazykh_tag} {sentence}"
+
     with open(temp_path + randomeFilename + '.txt', 'w') as f:
-        f.write(transcript)
+        f.write(classifiedText)
 
-    return transcript
+    return classifiedText

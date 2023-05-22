@@ -15,7 +15,9 @@ services:
       - "8000:80"
     networks:
       - lazykh_my_network
-      
+    env_file:
+      - ./env_vars.txt
+
 networks:
   lazykh_my_network:
     driver: bridge
