@@ -35,7 +35,7 @@ async def text_To_video(transcript: str):
 
     # Get text to voice sound and save it in the temp
     actor = "en-US-GuyNeural"
-    text_to_speech(transcript, temp_path + randomeFilename, actor)
+    await text_to_speech(transcript, temp_path + randomeFilename, actor)
     print("sound saved")
 
     # get phonemes this will take the audion from the temprory folder, it takes name
@@ -96,7 +96,7 @@ def emotion_to_lazykh_tag(emotion):
     """ Map API emotion to lazykh tag. """
     # lazky kh tags explain,happy,sad,angry,confused,rq
     mapping = {
-        "fear": "<sad>"
+        "fear": "<confused>"
     }
     return mapping.get(emotion, "<neutral>")
 
