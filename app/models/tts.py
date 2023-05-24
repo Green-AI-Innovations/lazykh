@@ -6,7 +6,7 @@ from services.utils import removeTags,split_into_sentences
 def emotion_to_ssml_tag(emotion):
     """ Map API emotion to Azure TTS emotion tag. """
     mapping = {
-        "fear": "terrified"
+        "fear": "friendly"
     }
     return mapping.get(emotion, "neutral")
 
