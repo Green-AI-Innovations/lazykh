@@ -35,7 +35,7 @@ async def text_To_video(transcript: str):
 
     # Get text to voice sound and save it in the temp
     actor = "en-US-GuyNeural"
-    text_to_speech(transcript, temp_path + randomeFilename, actor)
+    await text_to_speech(transcript, temp_path + randomeFilename, actor)
     print("sound saved")
 
     # get phonemes this will take the audion from the temprory folder, it takes name
@@ -56,8 +56,7 @@ async def text_To_video(transcript: str):
     # finish the video and save it in the temprory folder
     Videofinisher(temp_path,randomeFilename)
 
-    # Delete temprory files
-    delete_temprory_files(temp_path, randomeFilename)
+
 
     return get_video_from_file(randomeFilename)
 

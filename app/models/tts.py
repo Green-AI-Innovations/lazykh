@@ -17,7 +17,7 @@ def get_emotion(sentence):
     # response = requests.post(url, data=payload).json()
     return "fear"
 
-def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
+async def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
     parsed_text = removeTags(transcript)
 
     speech_config = speechsdk.SpeechConfig(
