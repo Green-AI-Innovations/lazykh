@@ -1,6 +1,6 @@
 import requests
 import json
-from services.utils import removeTags
+from services.utilities import removeTags
 
 
 def get_phonemes(path, filename):

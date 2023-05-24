@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 from starlette.middleware.cors import CORSMiddleware
 
-from controller.text_to_videoController import router as textToVido
+from controller.textToVideoController import router as text_to_video
 
 
 
@@ -23,6 +23,6 @@ def get_request():
     return PlainTextResponse("Healthy")
 
 
-routes=[textToVido]
+routes=[text_to_video]
 for route in routes:
   app.include_router(route)

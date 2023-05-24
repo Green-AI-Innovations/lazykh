@@ -5,7 +5,7 @@ import numpy as np
 import random
 from PIL import Image, ImageDraw
 import math
-from utils import getFilenameOfLine
+from utilities import getFilenameOfLine
 import shutil
 
 FRAME_START_RENDER_AT  = 0

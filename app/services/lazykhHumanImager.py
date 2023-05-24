@@ -5,7 +5,7 @@ import numpy as np
 import math
 import shutil
 import random
-from utils import removeTags, getFilenameOfLine, getTopic, capitalize
+from utilities import removeTags, getFilenameOfLine, getTopic, capitalize
 
 def renderTextCenteredAt(text, font, colour, x, y, screen, allowed_width):
     # first, split the text into words

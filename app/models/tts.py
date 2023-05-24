@@ -1,7 +1,7 @@
 import os
 import requests
 import azure.cognitiveservices.speech as speechsdk
-from services.utils import removeTags,split_into_sentences
+from services.utilities import removeTags,split_into_sentences
 import json
 from dotenv import load_dotenv
 

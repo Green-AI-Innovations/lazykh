@@ -7,10 +7,10 @@ from dotenv import load_dotenv
 import os
 from fastapi import APIRouter
 from models.tts import text_to_speech
-from services.gentelPhonemes import get_phonemes
+from services.gentlePhonemes import get_phonemes
 from services.lazykhVideoFinisher import Videofinisher
 
-from services.utils import (
+from services.utilities import (
     creat_randome_name,
     delete_cache,
     delete_temprory_files,
@@ -83,7 +83,7 @@ def draw_frames(file_name, use_billboards, jiggly_transitions):
 def scheduler(file_name):
     command = [
         "python",
-        "../services/lazykhschduler.py",
+        "../services/lazykhScheduler.py",
         "--input_file",
         file_name,
     ]
