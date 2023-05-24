@@ -99,6 +99,22 @@ def delete_cache():
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
 
+    for filename in os.listdir():
+        # Check if the file ends with '_final.mp4'
+        if filename.endswith('_final.mp4'):
+            file_path = os.path.join(os.getcwd(), filename)
+            try:
+                # Check if the file is in use
+                with open(file_path, 'r'):
+                    pass
+                # If not in use, delete the file
+                os.remove(file_path)
+                print(f"{filename} deleted successfully.")
+            except PermissionError:
+                print(f"{filename} is in use. Skipping deletion.")
+            except Exception as e:
+                print(f"Error deleting {filename}: {e}")
+
 
 
 
