@@ -119,12 +119,11 @@ def segment_text(text):
     return sentences_on_new_line
 
 
-if __name__ == "__main__":
-    string_var = """This is a sample sentence, from CNN.com.
+string_var = """This is a sample sentence, from CNN.com.
 
 
-                It contains multiple clauses, separated by commas and semicolons; some
-                of which are nested within parentheses."""
+            It contains multiple clauses, separated by commas and semicolons; some
+            of which are nested within parentheses."""
 
-    to_print = segment_text(string_var)
-    print(to_print)
+to_print = segment_text(string_var)
+print(to_print)

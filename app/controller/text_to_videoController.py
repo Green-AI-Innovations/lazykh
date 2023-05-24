@@ -2,7 +2,9 @@ import json
 import subprocess
 import requests
 import re
+from dotenv import load_dotenv
 
+import os
 from fastapi import APIRouter
 from models.tts import text_to_speech
 from services.gentelPhonemes import get_phonemes
@@ -14,7 +16,7 @@ from services.utils import (
     delete_temprory_files,
     get_video_from_file,
 )
-
+load_dotenv()
 router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
@@ -95,9 +97,11 @@ def emotion_to_lazykh_tag(emotion):
     """ Map API emotion to lazykh tag. """
     # lazky kh tags explain,happy,sad,angry,confused,rq
     mapping = {
-        "fear": "<confused>"
+        "fear": "<sad>",
+        "sad": "<sad>",
+        "happy": "<happy>"
     }
-    return mapping.get(emotion, "<neutral>")
+    return mapping[emotion]
 
 def get_emotion(sentence):
     """ Get emotion prediction from API. """
@@ -106,14 +110,36 @@ def get_emotion(sentence):
     # response = requests.post(url, data=payload)
     return "fear"
 
+def get_emotions(sentences):
+    """ Get emotion prediction from API. """
+    url = os.getenv('API_URL')
+    # Token API
+    token = os.getenv('API_HEADER_AUTH')
+    auth_header = {'Authorization': f'Bearer {token}'}
+    # Create and submit a request using the auth header
+    headers = auth_header
+    # Add content type header
+    headers.update({'Content-Type':'application/json'})
+    payload = json.dumps({'data': sentences})
+    payload = bytes(payload,encoding = 'utf8')
+    response = requests.post(url, payload, headers=headers)
+    print(f"response from API is: \n\n {response.json()}")
+    return response.json()
+
 def fake_classfy(transcript, temp_path, randomeFilename):
     sentences = re.split(r'[.!?]\s+', transcript)
     classifiedText = ""
-
-    for sentence in sentences:
-        emotion = get_emotion(sentence)
+    emotions = get_emotions(sentences)
+    # for sentence in sentences:
+    #     emotion = get_emotion(sentence)
+    #     lazykh_tag = emotion_to_lazykh_tag(emotion)
+    #     classifiedText += f"{lazykh_tag} {sentence}"
+    print(f"This is fake classifier method speaking: \n")
+    for sentence, emotion in zip(sentences, emotions):
+        print(f"sentence: {sentence}")
+        print(f"\n emotion: {emotion}")
         lazykh_tag = emotion_to_lazykh_tag(emotion)
-        classifiedText += f"{lazykh_tag} {sentence}"
+        classifiedText += f"{lazykh_tag} {sentence}. \n"
 
     with open(temp_path + randomeFilename + '.txt', 'w') as f:
         f.write(classifiedText)

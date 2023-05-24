@@ -16,7 +16,7 @@ services:
     networks:
       - lazykh_my_network
     env_file:
-      - ./env_vars.txt
+      - ./.env
 
 networks:
   lazykh_my_network:
