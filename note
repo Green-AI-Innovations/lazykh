@@ -1,3 +1,5 @@
 you will have to create this file named env_vars.txt in this directory and the content should be as follows to make sure docker orks:
-SPEECH_KEY=******************
-SPEECH_REGION=******
+SPEECH_KEY=803*************************
+SPEECH_REGION=******************
+API_HEADER_AUTH=ey********************************************
+API_URL=https://I*****-*****.westeurope.instances.azureml.net/score
