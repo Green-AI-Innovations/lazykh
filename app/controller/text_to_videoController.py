@@ -97,9 +97,10 @@ def emotion_to_lazykh_tag(emotion):
     """ Map API emotion to lazykh tag. """
     # lazky kh tags explain,happy,sad,angry,confused,rq
     mapping = {
-        "fear": "<sad>",
+        "explain": "<explain>",
+        "happy": "<happy>",
         "sad": "<sad>",
-        "happy": "<happy>"
+        "angry": "<angry>",
     }
     return mapping[emotion]
 

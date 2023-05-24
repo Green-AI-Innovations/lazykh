@@ -10,9 +10,10 @@ load_dotenv()
 def emotion_to_ssml_tag(emotion):
     """ Map API emotion to Azure TTS emotion tag. """
     mapping = {
-        "fear": "terrified",
-        "happy":"cheerful",
-        "sad":"sad"
+        "explain": "friendly",
+        "happy": "cheerful",
+        "sad": "sad",
+        "angry": "angry"
     }
     return mapping[emotion]
 
