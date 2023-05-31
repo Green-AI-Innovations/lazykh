@@ -94,29 +94,59 @@ def _join_sentences_on_new_line(spans):
     return "\n".join(sentences)
 
 
+# merge the too small segments
+def _merge_too_small(string_):
+    min_words_perLine = 2
+    lines = string_.splitlines()  # split the string into lines
+
+    # convert lines to a mutable data type
+    lines_list = list(lines)
+    
+    # iterate through each line to determine which lines to merge
+    for i in range(len(lines_list)-1):
+        # check if the current line has only one or two words
+        if len(lines_list[i].split()) <= min_words_perLine:
+            # if the current  line is the first line (position 0), then merge it with the next one
+            if i==0:
+                lines_list[i:i+2] = [' '.join(lines_list[i:i+2])]
+            if i==len(lines_list)-1:
+                lines_list[-2:] = [' '.join(lines_list[-2:])]
+            if i!=0 and i<(len(lines_list)-1):
+                # check if the previous line has fewer words than the next line
+                if len(lines_list[i - 1].split()) <= len(lines_list[i+1].split()):
+                    #add current line to the previous line
+                    lines_list[i-1:i] = [' '.join(lines_list[i-1:i])]
+                else:
+                    #add current line to the next line
+                    lines_list[i:i+1] = [' '.join(lines_list[i:i+1])]
+    # join the lines back into a string
+    merged_string = '\n'.join(lines_list)
+    return merged_string 
+
+
 def segment_text(text):
     text_ = re.sub(r"\s+", " ", text)
-    doc = _nlp(text_)
-    heads = _get_subtree_heads(doc)
+    doc = nlp(text_)
+    heads = get_subtree_heads(doc)
     sentences = list(doc.sents)
     smaller_parts = []
     smaller_parts_ = []
     smaller_parts__ = []
     final_list = []
     for sentence in sentences:
-        smaller_parts.append(_split_sentences_punct_marks(sentence))
+        smaller_parts.append(split_sentences_punct_marks(sentence))
     for x in smaller_parts:
         for xx in x:
-            smaller_parts_.append(_split_at_cc(xx.text))
+            smaller_parts_.append(split_at_cc(xx.text))
     for x in smaller_parts_:
         for xx in x:
-            smaller_parts__.append(_split_span_at_heads(heads, xx))
+            smaller_parts__.append(split_span_at_heads(heads, xx))
     for x in smaller_parts__:
-        for xx in x:
+        for xx in x: 
             final_list.append(xx)
-    cleaned_spans = _remove_punctuation_at_end(final_list)
-    sentences_on_new_line = _join_sentences_on_new_line(cleaned_spans)
-    return sentences_on_new_line
+    cleaned_spans = remove_punctuation_at_end(final_list)
+    sentences_on_new_line = join_sentences_on_new_line(cleaned_spans)
+    return merge_too_small(sentences_on_new_line)
 
 
 string_var = """This is a sample sentence, from CNN.com.
