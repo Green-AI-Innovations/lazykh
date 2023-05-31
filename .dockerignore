@@ -1,12 +1,1 @@
-gentle/ext/kaldi
-gentle/ext/*.o
-gentle/ext/*.a
-gentle/ext/*.so
-gentle/ext/*.dylib
-gentle/ext/k3
-gentle/ext/m3
-gentle/ext/tmp*
-gentle/ext/*.tmp
-gentle/ext/*.testlog
-Dockerfile
-video_artifacts/**/*
+**/__pycache__/*

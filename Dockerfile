@@ -1,43 +1,20 @@
-ARG PYTHON_VERSION=3.9
+FROM python:3.9
 
-FROM i453297/gentle:latest as gentle
-
-FROM python:${PYTHON_VERSION}-slim-buster AS poetry
-
-WORKDIR /gentle
-
-COPY --from=gentle /gentle .
-
-RUN chmod +x /gentle/ext/m3
-
-RUN apt-get update -qq && \
-    apt-get install -qq --no-install-recommends \
-    ca-certificates \
-    curl \
+RUN apt-get update && \
+    apt-get install -y \
+    libgl1-mesa-glx \
     build-essential \
-    gfortran \
-    ffmpeg && \
+    libssl-dev \
+    ffmpeg\
+    libcurl4-openssl-dev \
+    libasound2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV POETRY_HOME "/opt/poetry"
-ENV PATH="$POETRY_HOME/bin:$PATH"
-ENV POETRY_VIRTUALENVS_IN_PROJECT=false
-ENV POETRY_VIRTUALENVS_PATH="/virtualenvs"
+COPY ./requirements.txt requirements.txt
 
-# Install poetry
-RUN curl -sSL https://install.python-poetry.org | python -
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-WORKDIR /lazykh
-COPY pyproject.toml poetry.lock ./
+COPY ./app .
 
-RUN poetry install --no-interaction --no-ansi --verbose --no-cache --no-root
-
-COPY . .
-
-
-EXPOSE 80
-
-CMD ["poetry", "run", "uvicorn", "text_to_video.app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]

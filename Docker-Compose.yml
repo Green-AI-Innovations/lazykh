@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  gentle:
+    image: lowerquality/gentle
+    container_name: gentle
+    ports:
+      - "8765:8765"
+    networks:
+      - lazykh_my_network
+
+  text-to-video:
+    image: text_to_video
+    ports:
+      - "8000:80"
+    networks:
+      - lazykh_my_network
+    env_file:
+      - ./.env
+
+networks:
+  lazykh_my_network:
+    driver: bridge

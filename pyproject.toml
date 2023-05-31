@@ -1,32 +1,15 @@
-[tool.poetry]
-name = "lazykh"
-version = "0.1.0"
-description = "Fork of the lazykh repository"
-authors = ["Your Name <you@example.com>"]
-readme = "README.md"
-
-[tool.poetry.dependencies]
-python = ">=3.9,<3.11"
-numpy = "^1.24.2"
-starlette = "^0.26.1"
-requests = "^2.28.2"
-pydub = "^0.25.1"
-python-multipart = "^0.0.6"
-uvicorn = "^0.21.1"
-fastapi = { extras = ["all"], version = "^0.95.1" }
-fairseq = "^0.12.2"
-huggingface-hub = "^0.13.4"
-g2p-en = "^2.1.0"
-pydantic = "^1.10.7"
-ipython = "^8.12.0"
-torchaudio = "^2.0.1"
-tensorboardx = "^2.6"
-pillow = "^9.5.0"
-
-
-[tool.poetry.group.dev.dependencies]
-ipykernel = "^6.21.3"
-
 [build-system]
-requires = ["poetry-core>=1.4.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools >= 64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+authors = [{ name = "Your Name", email = "example@your-email.com" }]
+name = "text_to_video"
+version = "0.1.0"
+description = "A short description of your package"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "IDK" }
+
+[tool.setuptools]
+packages = ["app"]
