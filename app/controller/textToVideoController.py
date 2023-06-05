@@ -9,14 +9,16 @@ from fastapi import APIRouter
 from models.tts import text_to_speech
 from services.gentlePhonemes import get_phonemes
 from services.lazykhVideoFinisher import Videofinisher
+from services.subtitle import create_video_with_subtitles
 
 from services.utilities import (
-    creat_randome_name,
+    create_randome_name,
     delete_cache,
-    delete_temprory_files,
     get_video_from_file,
 )
+
 load_dotenv()
+
 router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
@@ -26,7 +28,7 @@ router = APIRouter(
 async def text_To_video(transcript: str):
 
     delete_cache()
-    randomeFilename = creat_randome_name()
+    randomeFilename = create_randome_name()
 
     # Storing files in temporory foder Not: All this files will get deleted after the
     temp_path = "services/temporary/"
@@ -42,7 +44,7 @@ async def text_To_video(transcript: str):
 
     # get phonemes this will take the audion from the temprory folder, it takes name
     # of audio file and the transcript and the path
-    get_phonemes(temp_path, randomeFilename)
+    phonemes=get_phonemes(temp_path, randomeFilename)
 
 
     # Call the scheduler this will creat a csv file in the temprory folder, it takes name of the file and the path
@@ -59,6 +61,10 @@ async def text_To_video(transcript: str):
     Videofinisher(temp_path,randomeFilename)
 
 
+    video_path = randomeFilename+'_final.mp4'
+    json_path =temp_path+randomeFilename+'.json'
+    output_path = randomeFilename+'_sub_final.mp4'
+    create_video_with_subtitles(video_path, json_path, output_path, randomeFilename)
 
     return get_video_from_file(randomeFilename)
 

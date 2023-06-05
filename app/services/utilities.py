@@ -48,7 +48,7 @@ def removeTags(script):
     return newScript
 
 
-def creat_randome_name():
+def create_randome_name():
     # Define the length of the random string
     length = 12
     while True:
@@ -121,7 +121,7 @@ def delete_cache():
 def get_video_from_file(path):
     # Read the video file as binary data
     def iterfile():  #
-        with open(path+'_final.mp4', mode="rb") as file_like:  #
+        with open(path+'_sub_final.mp4', mode="rb") as file_like:  #
             yield from file_like  #
 
     return StreamingResponse(iterfile(), media_type="video/mp4")
