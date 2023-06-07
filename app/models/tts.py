@@ -1,8 +1,7 @@
 import os
-import requests
 import azure.cognitiveservices.speech as speechsdk
 from services.utilities import removeTags,split_into_sentences
-import json
+from models.emotion_model import get_emotions
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -17,28 +16,6 @@ def emotion_to_ssml_tag(emotion):
     }
     return mapping[emotion]
 
-def get_emotion(sentence):
-    """ Get emotion prediction from API. """
-    # url = "www.example.com"
-    # payload = {'text': sentence}
-    # response = requests.post(url, data=payload).json()
-    return "fear"
-
-def get_emotions(sentences):
-    """ Get emotion prediction from API. """
-    url = os.getenv('API_URL')
-    # Token API
-    token = os.getenv('API_HEADER_AUTH')
-    auth_header = {'Authorization': f'Bearer {token}'}
-    # Create and submit a request using the auth header
-    headers = auth_header
-    # Add content type header
-    headers.update({'Content-Type':'application/json'})
-    payload = json.dumps({'data': sentences})
-    payload = bytes(payload,encoding = 'utf8')
-    response = requests.post(url, payload, headers=headers)
-    print(f"response from API is: \n\n {response.json()}")
-    return response.json()
 
 async def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
     parsed_text = removeTags(transcript)

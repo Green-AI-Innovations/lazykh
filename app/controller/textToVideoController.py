@@ -1,16 +1,12 @@
-import json
 import subprocess
-import requests
-import re
 from dotenv import load_dotenv
 
-import os
 from fastapi import APIRouter
 from models.tts import text_to_speech
 from services.gentlePhonemes import get_phonemes
 from services.lazykhVideoFinisher import Videofinisher
 from services.subtitle import create_video_with_subtitles
-
+from models.emotion_model import emotion_classfy
 from services.utilities import (
     create_randome_name,
     delete_cache,
@@ -33,8 +29,8 @@ async def text_To_video(transcript: str):
     # Storing files in temporory foder Not: All this files will get deleted after the
     temp_path = "services/temporary/"
 
-    #  TODO Classfy the transcript user inputed and save it
-    fake_classfy(transcript,temp_path,randomeFilename)
+    #  Classfy the transcript user inputed and save it
+    emotion_classfy(transcript,temp_path,randomeFilename)
 
 
     # Get text to voice sound and save it in the temp
@@ -42,9 +38,9 @@ async def text_To_video(transcript: str):
     await text_to_speech(transcript, temp_path + randomeFilename, actor)
     print("sound saved")
 
-    # get phonemes this will take the audion from the temprory folder, it takes name
-    # of audio file and the transcript and the path
-    phonemes=get_phonemes(temp_path, randomeFilename)
+    # get phonemes this will take the audion from the temprory folder
+    # it takes name of audio file and the transcript and the path
+    get_phonemes(temp_path, randomeFilename)
 
 
     # Call the scheduler this will creat a csv file in the temprory folder, it takes name of the file and the path
@@ -60,7 +56,7 @@ async def text_To_video(transcript: str):
     # finish the video and save it in the temprory folder
     Videofinisher(temp_path,randomeFilename)
 
-
+    # Add subtitle to the final video 
     video_path = randomeFilename+'_final.mp4'
     json_path =temp_path+randomeFilename+'.json'
     output_path = randomeFilename+'_sub_final.mp4'
@@ -99,56 +95,3 @@ def scheduler(file_name):
         print(f"Error lazykhschduler: {e}")
 
 
-def emotion_to_lazykh_tag(emotion):
-    """ Map API emotion to lazykh tag. """
-    # lazky kh tags explain,happy,sad,angry,confused,rq
-    mapping = {
-        "explain": "<explain>",
-        "happy": "<happy>",
-        "sad": "<sad>",
-        "angry": "<angry>",
-    }
-    return mapping[emotion]
-
-def get_emotion(sentence):
-    """ Get emotion prediction from API. """
-    # url = "www.example.com"
-    # payload = {'text': sentence}
-    # response = requests.post(url, data=payload)
-    return "fear"
-
-def get_emotions(sentences):
-    """ Get emotion prediction from API. """
-    url = os.getenv('API_URL')
-    # Token API
-    token = os.getenv('API_HEADER_AUTH')
-    auth_header = {'Authorization': f'Bearer {token}'}
-    # Create and submit a request using the auth header
-    headers = auth_header
-    # Add content type header
-    headers.update({'Content-Type':'application/json'})
-    payload = json.dumps({'data': sentences})
-    payload = bytes(payload,encoding = 'utf8')
-    response = requests.post(url, payload, headers=headers)
-    print(f"response from API is: \n\n {response.json()}")
-    return response.json()
-
-def fake_classfy(transcript, temp_path, randomeFilename):
-    sentences = re.split(r'[.!?]\s+', transcript)
-    classifiedText = ""
-    emotions = get_emotions(sentences)
-    # for sentence in sentences:
-    #     emotion = get_emotion(sentence)
-    #     lazykh_tag = emotion_to_lazykh_tag(emotion)
-    #     classifiedText += f"{lazykh_tag} {sentence}"
-    print(f"This is fake classifier method speaking: \n")
-    for sentence, emotion in zip(sentences, emotions):
-        print(f"sentence: {sentence}")
-        print(f"\n emotion: {emotion}")
-        lazykh_tag = emotion_to_lazykh_tag(emotion)
-        classifiedText += f"{lazykh_tag} {sentence}. \n"
-
-    with open(temp_path + randomeFilename + '.txt', 'w') as f:
-        f.write(classifiedText)
-
-    return classifiedText
