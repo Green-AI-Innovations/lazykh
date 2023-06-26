@@ -11,7 +11,7 @@ def emotion_to_lazykh_tag(emotion):
     mapping = {
         "explain": "<explain>",
         "happy": "<happy>",
-        "sad": "<sad>",
+        "sad": "<explain>",
         "angry": "<angry>",
     }
     return mapping[emotion]
@@ -46,9 +46,10 @@ def emotion_classfy(transcript, temp_path, randomeFilename):
         print(f"sentence: {sentence}")
         print(f"\n emotion: {emotion}")
         lazykh_tag = emotion_to_lazykh_tag(emotion)
-        classifiedText += f"{lazykh_tag} {sentence}. \n"
+        classifiedText += f"{lazykh_tag} {sentence}. \n\n"
 
     with open(temp_path + randomeFilename + '.txt', 'w') as f:
         f.write(classifiedText)
 
+    print(f"final classified text: \n\n{classifiedText}")
     return classifiedText

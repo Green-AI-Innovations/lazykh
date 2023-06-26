@@ -12,17 +12,22 @@ from services.utilities import (
     delete_cache,
     get_video_from_file,
 )
-
+from pydantic import BaseModel
 load_dotenv()
 
 router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+# Define your JSON structure in this model
+class TranscriptModel(BaseModel):
+    transcript: str
 
 @router.post("/textToVideo")
-async def text_To_video(transcript: str):
+async def text_To_video(payload: TranscriptModel):
 
+    transcript = payload.transcript
+    
     delete_cache()
     randomeFilename = create_randome_name()
 
@@ -67,7 +72,7 @@ async def text_To_video(transcript: str):
 
 def draw_frames(file_name, use_billboards, jiggly_transitions):
     command = [
-        "python",
+        "python3",
         "../services/lazykhVideoDrawer.py",
         "--input_file",
         file_name,
@@ -84,7 +89,7 @@ def draw_frames(file_name, use_billboards, jiggly_transitions):
 
 def scheduler(file_name):
     command = [
-        "python",
+        "python3",
         "../services/lazykhScheduler.py",
         "--input_file",
         file_name,

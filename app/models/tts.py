@@ -11,7 +11,7 @@ def emotion_to_ssml_tag(emotion):
     mapping = {
         "explain": "friendly",
         "happy": "cheerful",
-        "sad": "sad",
+        "sad": "friendly",
         "angry": "angry"
     }
     return mapping[emotion]
@@ -34,7 +34,7 @@ async def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
     # Initialize the SSML text
     ssml_text = f"""
     <speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xmlns:mstts='http://www.w3.org/2001/mstts' xml:lang='en-US'>
-    <voice name='{voice}'>"""
+    <voice name='{voice}'><prosody rate="5%">"""
 
 
     # Process all sentences at once
@@ -52,9 +52,9 @@ async def text_to_speech(transcript, path_name, actor="en-US-JennyNeural"):
         print(f"sentence: {sentence}")
         print(f"\n emotion: {emotion}")
         ssml_emotion = emotion_to_ssml_tag(emotion)
-        ssml_text += f"<mstts:express-as style='{ssml_emotion}'>{sentence} <break time='1000ms' /></mstts:express-as>"
+        ssml_text += f"<mstts:express-as style='{ssml_emotion}'>{sentence}<break time='700ms'/></mstts:express-as>"
 
-    ssml_text += "</voice></speak>"
+    ssml_text += "</prosody></voice></speak>"
     print(f"final ssml text: \n\n{ssml_text}")
     output_file_path = path_name + ".wav"
     speech_result = speech_synthesizer.speak_ssml_async(ssml_text).get()
